@@ -1,0 +1,63 @@
+<section class="pokemon-detail-container" *ngIf="pokemonDetail">
+  <div class="row p-4">
+    <div class="col-12 text-center">
+      <img *ngIf="pokemonDetail.sprites.front_default"
+        width="150"
+        height="150"
+        alt="pokemon detail"
+        [src]="pokemonDetail.sprites.front_default"/>
+
+        <h3 class="d-block mb-0 font-weight-bold">
+          {{ "#" + pokemonId + "- " + pokemonDetail.name}}
+        </h3>
+    </div>
+
+    <hr class="col-12">
+
+    <div class="col-12">
+      <span class="d-block font-weight-bold">
+        Types
+      </span>
+      <div class="d-block">
+        <mat-chip-list aria-label="pokemon types">
+          <mat-chip [class]="'badge-' + type.type.name"
+            *ngFor="let type of pokemonDetail.types">
+            {{type.type.name}}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+
+    <div class="col-12 mt-2">
+      <span class="d-block font-weight-bold">
+        Height
+      </span>
+      <span class="d-block">
+        {{pokemonDetail.height}}
+      </span>
+    </div>
+
+    <div class="col-12 mt-2">
+      <span class="d-block font-weight-bold">
+        Weight
+      </span>
+      <span class="d-block">
+        {{pokemonDetail.weight}}
+      </span>
+    </div>
+
+    <div class="col-12 mt-2">
+      <a class="d-block anchor" (click)="onShowMovementList()">
+        {{ viewMovementList ? 'Hide Movement List': 'View Movements List'}}
+      </a>
+
+      <div class="row p-3" *ngIf="viewMovementList">
+        <div class="list-group-item col-6" *ngFor="let move of pokemonDetail.moves">
+          <span>
+            {{ move.move.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

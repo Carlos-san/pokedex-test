@@ -1,4 +1,4 @@
-import { OnChanges, SimpleChanges } from "@angular/core";
+import { EventEmitter, OnChanges, Output, SimpleChanges } from "@angular/core";
 import { DefaultListItem } from "src/app/models/default.list.item.model";
 import { Component, OnInit, Input } from '@angular/core';
 import { Subject, Subscription } from "rxjs";
@@ -14,11 +14,15 @@ export class PokemonListItemComponent implements OnInit, OnChanges {
 
   @Input() pokemonListItemModel?: DefaultListItem;
 
+  @Output() onPokemonSelected = new EventEmitter<number>();
+
   pokemonIdSubject = new Subject<number>();
 
   pageSubscriptionHandler = new Subscription();
 
   pokemonDetail?: PokemonDetailModel;
+
+  pokemonId?: number;
 
   constructor(
     private readonly pokemonService: PokemonService
@@ -36,8 +40,9 @@ export class PokemonListItemComponent implements OnInit, OnChanges {
         const pokemonId = this.extractPokemonIdfromUrl();
 
         if(pokemonId !== -1) {
+          this.pokemonId = pokemonId;
           this.pokemonIdSubject.next(
-            this.extractPokemonIdfromUrl()
+            pokemonId
           );
         }
     }
@@ -57,8 +62,12 @@ export class PokemonListItemComponent implements OnInit, OnChanges {
     );
   }
 
+  onPokemonSelectedEvent(): void {
+    this.onPokemonSelected.emit(this.pokemonId);
+  }
 
-  extractPokemonIdfromUrl(): number {
+
+  private extractPokemonIdfromUrl(): number {
     if(!this.pokemonListItemModel?.url) {
       return -1;
     }

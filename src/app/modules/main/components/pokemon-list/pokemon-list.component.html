@@ -1,17 +1,26 @@
-<div class="row p-3">
-  <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-2" *ngFor="let pokemon of pokemonListSubject | async">
-    <pkm-pokemon-list-item
-      [pokemonListItemModel]="pokemon">
-    </pkm-pokemon-list-item>
+
+
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="over" hasBackdrop="true" position="end">
+    <pkm-pokemon-detail [pokemonId]="pokemonIdSelected"></pkm-pokemon-detail>
+  </mat-drawer>
+
+  <div class="row p-3">
+    <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-2" *ngFor="let pokemon of pokemonListSubject | async">
+      <pkm-pokemon-list-item
+        [pokemonListItemModel]="pokemon"
+        (onPokemonSelected)="onPokemonSelected($event)">
+      </pkm-pokemon-list-item>
+    </div>
   </div>
-</div>
 
-<div class="paginator p-2">
-  <mat-paginator [length]="pokemonCount"
-    [pageSize]="paginationModel.pageSize"
-    [pageSizeOptions]="paginationModel.pageSizeOptions"
-    (page)="onPageChange($event)"
-    aria-label="Select page">
-  </mat-paginator>
-</div>
+  <div class="paginator p-2">
+    <mat-paginator [length]="pokemonCount"
+      [pageSize]="paginationModel.pageSize"
+      [pageSizeOptions]="paginationModel.pageSizeOptions"
+      (page)="onPageChange($event)"
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
 
+</mat-drawer-container>

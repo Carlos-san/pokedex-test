@@ -4,6 +4,10 @@ import { PokemonSpritesModel } from "./pokemon.sprites.model";
 import { TypeItem } from "./types.model";
 
 export class PokemonDetailModel {
+  id!: number;
+
+  name!: string;
+
   base_experience!: number;
 
   forms!: DefaultListItem[];

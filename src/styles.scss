@@ -86,3 +86,30 @@ body {
 .badge-shadow {
   background-color: #705898 !important;
 }
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+  .mat-drawer {
+    width: 300px !important;
+  }
+}
+
+.mat-drawer {
+  width: 500px;
+}
+
+.mat-drawer-content {
+  overflow-x: hidden !important;
+}
+
+.anchor {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.app-toolbar {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1000;
+}

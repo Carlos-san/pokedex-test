@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { MatDrawer } from '@angular/material/sidenav';
 import { Subject, Subscription } from 'rxjs';
 import { DefaultListItem } from 'src/app/models/default.list.item.model';
 import { PaginationModel } from 'src/app/models/pagination.model';
@@ -23,6 +24,10 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   filtersSubject = new Subject();
 
   pokemonListSubject = new Subject<DefaultListItem[]>();
+
+  pokemonIdSelected?: number;
+
+  @ViewChild('drawer', { static: true }) public drawer!: MatDrawer;
 
   constructor(
     private readonly pokemonService: PokemonService
@@ -67,6 +72,11 @@ export class PokemonListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.pageSubscriptionHandler.unsubscribe();
+  }
+
+  onPokemonSelected(pokemonId: number) {
+    this.pokemonIdSelected = pokemonId;
+    this.drawer.toggle();
   }
 
 }
