@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDrawer } from '@angular/material/sidenav';
-import { Subject, Subscription } from 'rxjs';
+import { debounceTime, Subject, Subscription } from 'rxjs';
 import { DefaultListItem } from 'src/app/models/default.list.item.model';
 import { PaginationModel } from 'src/app/models/pagination.model';
 
@@ -27,16 +28,31 @@ export class PokemonListComponent implements OnInit, OnDestroy {
 
   pokemonIdSelected?: number;
 
+  searchFilter = new FormControl('');
+
   @ViewChild('drawer', { static: true }) public drawer!: MatDrawer;
 
   constructor(
     private readonly pokemonService: PokemonService
   ) {
     this.setPokemonListSubscription();
+    this.setSearchEvent();
   }
 
   ngOnInit(): void {
-    this.filtersSubject.next({});
+    this.filtersSubject.next({ searchBar: this.searchFilter.value});
+  }
+
+  setSearchEvent(): void {
+    this.pageSubscriptionHandler.add(
+      this.searchFilter.valueChanges.pipe(
+        debounceTime(400)
+      ).subscribe(
+        (search) => {
+          this.filtersSubject.next({ searchBar: search});
+        }
+      )
+    )
   }
 
   onPageChange(pageChangeEvent: PageEvent) {
@@ -47,7 +63,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
       this.paginationModel.page = pageChangeEvent.pageIndex;
     }
 
-    this.filtersSubject.next({});
+    this.filtersSubject.next({ searchBar: this.searchFilter.value});
   }
 
   setPokemonListSubscription() {
@@ -56,7 +72,8 @@ export class PokemonListComponent implements OnInit, OnDestroy {
         (filtersApplied: any) => {
           this.pokemonService.getPokemonListPaginated(
             this.paginationModel.pageSize,
-            this.paginationModel.getOffSet()
+            this.paginationModel.getOffSet(),
+            filtersApplied.searchBar
           ).subscribe((response: PokemonListResponseModel) => {
             this.handlePokemonListResponse(response);
           })

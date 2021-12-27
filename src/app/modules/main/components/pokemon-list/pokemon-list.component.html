@@ -6,6 +6,21 @@
   </mat-drawer>
 
   <div class="row p-3">
+    <div class="col-12">
+      <div class="d-block mt-4">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Search by Name or Id</mat-label>
+          <input
+            type="text"
+            class="w-100"
+            matInput
+            [formControl]="searchFilter"
+            placeholder="Search pokemon">
+        </mat-form-field>
+      </div>
+    </div>
+
+
     <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-2" *ngFor="let pokemon of pokemonListSubject | async">
       <pkm-pokemon-list-item
         [pokemonListItemModel]="pokemon"

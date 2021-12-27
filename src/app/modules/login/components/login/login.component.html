@@ -8,15 +8,15 @@
       src="https://img.icons8.com/dusk/64/000000/pokeball.png"/>
     </div>
 
-    <div class="login-form">
+    <div class="login-form" [formGroup]="loginForm">
       <div class="d-block mt-4">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>User</mat-label>
           <input
-            type="email"
+            type="text"
             class="w-100"
             matInput
-            formControlName="userName"
+            formControlName="user"
             placeholder="pokemon trainer email">
         </mat-form-field>
       </div>
@@ -33,11 +33,25 @@
         </mat-form-field>
       </div>
 
+      <div class="d-block mt-2" *ngIf="invalidLogin">
+        <div class="alert alert-danger">
+          <span class="d-block">
+            we couldn't find you,
+          </span>
+          <span class="d-block">
+            Please check your data and try again
+          </span>
+
+        </div>
+      </div>
+
+
       <div class="d-block mt-1">
         <button mat-button
           type="submit"
           mat-flat-button
           color="primary"
+          (click)="submitLogin()"
           class="w-100 h-48-px">
           Log in
         </button>

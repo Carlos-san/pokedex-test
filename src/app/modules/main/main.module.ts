@@ -10,6 +10,11 @@ import { PokemonListItemComponent } from './components/pokemon-list-item/pokemon
 import {MatChipsModule} from '@angular/material/chips';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { PokemonDetailComponent } from './components/pokemon-detail/pokemon-detail.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,12 @@ import { PokemonDetailComponent } from './components/pokemon-detail/pokemon-deta
     MatToolbarModule,
     MatPaginatorModule,
     MatChipsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatInputModule,
+    ReactiveFormsModule
   ]
 })
 export class MainModule { }

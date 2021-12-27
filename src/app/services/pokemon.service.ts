@@ -16,8 +16,10 @@ export class PokemonService {
     private readonly http: HttpClient
   ) { }
 
-  getPokemonListPaginated(pageSize: number, offset: number): Observable<PokemonListResponseModel> {
-    return this.http.get<PokemonListResponseModel>(`${this.pokeApiEndpoint}pokemon?limit=${pageSize}&offset=${offset}`);
+  getPokemonListPaginated(pageSize: number, offset: number, search: string = ''): Observable<PokemonListResponseModel> {
+    return this.http.get<PokemonListResponseModel>(
+      `${this.pokeApiEndpoint}pokemon?limit=${pageSize}&offset=${offset}`
+    );
   }
 
   getPokemonList(): Observable<PokemonListResponseModel> {

@@ -1,0 +1,20 @@
+<div class="dialog-modal-container">
+  <h1 class="text-title-regular text-center" mat-dialog-title>
+    {{title}}
+  </h1>
+  <div mat-dialog-content class="mt-3">
+    <p class="text-regular text-center" [innerHtml]="message">
+    </p>
+  </div>
+  <mat-dialog-actions align="center" class="mb-2">
+    <button mat-button mat-dialog-close *ngIf="type !== 'success'">Cancelar</button>
+    <button
+      mat-flat-button
+      color="primary"
+      [mat-dialog-close]="true"
+      (click)="onSubmit()"
+      cdkFocusInitial>
+      Aceptar
+    </button>
+  </mat-dialog-actions>
+</div>

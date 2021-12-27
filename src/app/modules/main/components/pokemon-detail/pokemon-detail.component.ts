@@ -18,7 +18,7 @@ export class PokemonDetailComponent implements OnInit, OnChanges, OnDestroy {
 
   pokemonDetail?: PokemonDetailModel;
 
-  viewMovementList = false;
+  viewMovementList = true;
 
   constructor(
     private readonly pokemonService: PokemonService
@@ -34,6 +34,7 @@ export class PokemonDetailComponent implements OnInit, OnChanges, OnDestroy {
       changes['pokemonId'].currentValue &&
       changes['pokemonId'].currentValue !== changes['pokemonId'].previousValue ){
         this.pokemonIdSubject.next(changes['pokemonId'].currentValue);
+        this.viewMovementList = true;
     }else {
       this.pokemonDetail = undefined;
     }

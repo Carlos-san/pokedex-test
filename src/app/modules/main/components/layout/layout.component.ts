@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, NavigationEnd, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { filter, map, mergeMap, pipe, Subscription } from 'rxjs';
+import { AppState } from 'src/app/store/app.state';
+import { logout } from 'src/app/store/user.actions';
 
 @Component({
   selector: 'pkm-layout',
@@ -15,7 +18,8 @@ export class LayoutComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly authStore: Store<AppState>
   ) {
     this.getRouteData();
   }
@@ -42,6 +46,11 @@ export class LayoutComponent implements OnInit {
         }
       })
     );
+  }
+
+  logout() {
+    this.authStore.dispatch(logout());
+    this.router.navigate(['/']);
   }
 
 }

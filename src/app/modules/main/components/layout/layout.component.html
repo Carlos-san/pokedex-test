@@ -1,5 +1,16 @@
 <mat-toolbar color="primary" class="app-toolbar">
   <span>{{pageTitle}}</span>
+
+  <span _ngcontent-rag-c164="" class="header-spacer"></span>
+
+  <button mat-icon-button aria-label="Profile options" [matMenuTriggerFor]="userMenu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item (click)="logout()">
+      Logout
+    </button>
+  </mat-menu>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

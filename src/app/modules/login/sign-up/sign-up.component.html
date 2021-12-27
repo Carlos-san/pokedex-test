@@ -5,7 +5,7 @@
       New Trainer Information
     </h2>
 
-    <div class="signup-form">
+    <div class="signup-form" [formGroup]="signupForm">
       <div class="d-block mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Full Name</mat-label>
@@ -13,7 +13,7 @@
             type="email"
             class="w-100"
             matInput
-            formControlName="userName"
+            formControlName="fullName"
             placeholder="pokemon trainer name">
         </mat-form-field>
       </div>
@@ -26,18 +26,27 @@
             class="w-100"
             matInput
             formControlName="userName"
+            formControlName="email"
             placeholder="pokemon trainer email">
         </mat-form-field>
+      </div>
+
+      <div class="d-block mt-2" *ngIf="invalidEmail">
+        <div class="alert alert-danger">
+          <span>
+            This email is already taken
+          </span>
+        </div>
       </div>
 
       <div class="d-block mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Password</mat-label>
           <input
-            type="email"
+            type="password"
             class="w-100"
             matInput
-            formControlName="userName"
+            formControlName="password"
             placeholder="Password">
         </mat-form-field>
       </div>
@@ -46,10 +55,10 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Confirm Password</mat-label>
           <input
-            type="email"
+            type="password"
             class="w-100"
             matInput
-            formControlName="userName"
+            formControlName="confirmPassword"
             placeholder="Confirm your password">
         </mat-form-field>
       </div>
@@ -59,6 +68,7 @@
           type="submit"
           mat-flat-button
           color="primary"
+          (click)="submitTrainer()"
           class="w-100 h-48-px">
           Create Trainer
         </button>
