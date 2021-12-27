@@ -1,42 +1,49 @@
 
 
-<mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="over" hasBackdrop="true" position="end">
+<mat-sidenav-container class="example-container" autosize>
+  <mat-sidenav #drawer
+    class="example-sidenav"
+    mode="over"
+    hasBackdrop="true"
+    position="end"
+    [fixedInViewport]="true"
+    [fixedTopGap]="64">
     <pkm-pokemon-detail [pokemonId]="pokemonIdSelected"></pkm-pokemon-detail>
-  </mat-drawer>
+  </mat-sidenav>
 
-  <div class="row p-3">
-    <div class="col-12">
-      <div class="d-block mt-4">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Search by Pokemon Name</mat-label>
-          <input
-            type="text"
-            class="w-100"
-            matInput
-            [formControl]="searchFilter"
-            placeholder="Search pokemon">
-        </mat-form-field>
+  <mat-sidenav-content>
+    <div class="row p-3">
+      <div class="col-12">
+        <div class="d-block mt-4">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Search by Pokemon Name</mat-label>
+            <input
+              type="text"
+              class="w-100"
+              matInput
+              [formControl]="searchFilter"
+              placeholder="Search pokemon">
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-2" *ngFor="let pokemon of pokemonListSubject | async">
+        <pkm-pokemon-list-item
+          [pokemonListItemModel]="pokemon"
+          (onPokemonSelected)="onPokemonSelected($event)">
+        </pkm-pokemon-list-item>
       </div>
     </div>
 
-
-    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-2" *ngFor="let pokemon of pokemonListSubject | async">
-      <pkm-pokemon-list-item
-        [pokemonListItemModel]="pokemon"
-        (onPokemonSelected)="onPokemonSelected($event)">
-      </pkm-pokemon-list-item>
+    <div class="paginator p-2">
+      <mat-paginator [length]="pokemonCount"
+        [pageSize]="paginationModel.pageSize"
+        [pageIndex]="paginationModel.page"
+        [pageSizeOptions]="paginationModel.pageSizeOptions"
+        (page)="onPageChange($event)"
+        aria-label="Select page">
+      </mat-paginator>
     </div>
-  </div>
-
-  <div class="paginator p-2">
-    <mat-paginator [length]="pokemonCount"
-      [pageSize]="paginationModel.pageSize"
-      [pageIndex]="paginationModel.page"
-      [pageSizeOptions]="paginationModel.pageSizeOptions"
-      (page)="onPageChange($event)"
-      aria-label="Select page">
-    </mat-paginator>
-  </div>
-
-</mat-drawer-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>

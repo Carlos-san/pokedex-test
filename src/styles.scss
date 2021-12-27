@@ -104,6 +104,15 @@ body {
   height: 90% !important;
 }
 
+.mat-drawer-backdrop {
+  height: 100%;
+  position: fixed !important;
+}
+
+.mat-drawer-container {
+  height: auto;
+}
+
 .anchor {
   cursor: pointer;
   text-decoration: none;
