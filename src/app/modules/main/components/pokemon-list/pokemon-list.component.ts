@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDrawer } from '@angular/material/sidenav';
-import { debounceTime, Subject, Subscription } from 'rxjs';
+import { debounceTime, filter, Subject, Subscription } from 'rxjs';
 import { DefaultListItem } from 'src/app/models/default.list.item.model';
 import { PaginationModel } from 'src/app/models/pagination.model';
 
@@ -25,6 +25,8 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   filtersSubject = new Subject();
 
   pokemonListSubject = new Subject<DefaultListItem[]>();
+
+  allPokemonList: DefaultListItem[] = [];
 
   pokemonIdSelected?: number;
 
@@ -49,6 +51,8 @@ export class PokemonListComponent implements OnInit, OnDestroy {
         debounceTime(400)
       ).subscribe(
         (search) => {
+          this.paginationModel.page = 0;
+
           this.filtersSubject.next({ searchBar: search});
         }
       )
@@ -69,22 +73,51 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   setPokemonListSubscription() {
     this.pageSubscriptionHandler.add(
       this.filtersSubject.subscribe(
-        (filtersApplied: any) => {
-          this.pokemonService.getPokemonListPaginated(
-            this.paginationModel.pageSize,
-            this.paginationModel.getOffSet(),
-            filtersApplied.searchBar
-          ).subscribe((response: PokemonListResponseModel) => {
-            this.handlePokemonListResponse(response);
-          })
+        (filters: any) => {
+          if(this.allPokemonList.length === 0){
+            this.pokemonListSubject.next([]);
+            this.pokemonCount = 0;
+
+            return;
+          }
+
+          const filteredPokemon = this.getPokemonListFiltered(filters.searchBar);
+          const offset = this.paginationModel.getOffSet();
+          this.pokemonListSubject.next(
+            filteredPokemon === undefined ? []:
+            filteredPokemon.slice(
+              offset,
+              offset + this.paginationModel.pageSize
+            )
+          );
+          this.pokemonCount = filteredPokemon.length;
         }
       )
+    );
+
+
+    this.pageSubscriptionHandler.add(
+      this.pokemonService.getPokemonListPaginated().subscribe((response: PokemonListResponseModel) => {
+        this.handlePokemonListResponse(response);
+      })
+    );
+  }
+
+  getPokemonListFiltered(searchFilter: string) {
+    if(searchFilter === '') {
+      return [...this.allPokemonList];
+    }
+
+    const searchLowered = searchFilter.toLowerCase();
+
+    return this.allPokemonList.filter(
+      (pokemon) => pokemon.name.toLowerCase().includes(searchLowered)
     );
   }
 
   handlePokemonListResponse(response: PokemonListResponseModel) {
-    this.pokemonCount = response.count;
-    this.pokemonListSubject.next(response.results);
+    this.allPokemonList = response.results;
+    this.filtersSubject.next({ searchBar: this.searchFilter.value});
   }
 
   ngOnDestroy(): void {

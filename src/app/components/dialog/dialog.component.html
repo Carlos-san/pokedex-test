@@ -7,14 +7,14 @@
     </p>
   </div>
   <mat-dialog-actions align="center" class="mb-2">
-    <button mat-button mat-dialog-close *ngIf="type !== 'success'">Cancelar</button>
+    <button mat-button mat-dialog-close *ngIf="type !== 'success'">Cancel</button>
     <button
       mat-flat-button
       color="primary"
       [mat-dialog-close]="true"
       (click)="onSubmit()"
       cdkFocusInitial>
-      Aceptar
+      Accept
     </button>
   </mat-dialog-actions>
 </div>

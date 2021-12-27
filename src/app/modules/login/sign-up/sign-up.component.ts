@@ -7,6 +7,7 @@ import { UserModel } from 'src/app/models/user.model';
 import { DialogService } from 'src/app/services/dialog.service';
 import { AppState, selectUserList } from 'src/app/store/app.state';
 import { CreateUserAction } from 'src/app/store/user.actions';
+import { Utils } from 'src/app/utils/utils.class';
 
 @Component({
   selector: 'pkm-sign-up',
@@ -21,10 +22,12 @@ export class SignUpComponent implements OnInit {
 
   invalidEmail = false;
 
+  invalidPasswordValidation = false;
+
   signupForm = this.formBuilder.group({
     fullName: ['', Validators.compose([Validators.required, Validators.minLength(3)])],
     email: ['', Validators.compose([Validators.required, Validators.email, Validators.minLength(3)])],
-    password: ['', Validators.compose([Validators.required, Validators.minLength(3)])],
+    password: ['', Validators.compose([Validators.required, Validators.minLength(3), Utils.passwordPatternValidator])],
     confirmPassword: ['', Validators.compose([Validators.required, Validators.minLength(3)])],
   });
 
@@ -67,7 +70,7 @@ export class SignUpComponent implements OnInit {
   }
 
   submitTrainer(){
-    this.invalidEmail = false;
+    this.invalidPasswordValidation = false;
 
     if(this.signupForm.invalid){
       this.signupForm.markAllAsTouched();
@@ -77,6 +80,11 @@ export class SignUpComponent implements OnInit {
     const formValues = this.signupForm.value;
 
     if(this.invalidEmail) {
+      return;
+    }
+
+    if(formValues.password !== formValues.confirmPassword) {
+      this.invalidPasswordValidation = true;
       return;
     }
 
@@ -102,6 +110,15 @@ export class SignUpComponent implements OnInit {
       'New trainer',
       'Trainer created successfully',
       'success',
+      () => { this.router.navigate(['/']); }
+    );
+  }
+
+  cancelUser() {
+    this.dialogService.showDialog(
+      'New trainer',
+      'Do you want to cancel the trainer creation process?',
+      'info',
       () => { this.router.navigate(['/']); }
     );
   }

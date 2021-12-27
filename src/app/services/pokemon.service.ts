@@ -10,15 +10,17 @@ import { PokemonDetailModel } from '../models/pokemon.detail.model';
 })
 export class PokemonService {
 
+  pokemonCountLimit = 1000;
+
   readonly pokeApiEndpoint = environment.pokeapi;
 
   constructor(
     private readonly http: HttpClient
   ) { }
 
-  getPokemonListPaginated(pageSize: number, offset: number, search: string = ''): Observable<PokemonListResponseModel> {
+  getPokemonListPaginated(): Observable<PokemonListResponseModel> {
     return this.http.get<PokemonListResponseModel>(
-      `${this.pokeApiEndpoint}pokemon?limit=${pageSize}&offset=${offset}`
+      `${this.pokeApiEndpoint}pokemon?limit=${this.pokemonCountLimit}&offset=0`
     );
   }
 

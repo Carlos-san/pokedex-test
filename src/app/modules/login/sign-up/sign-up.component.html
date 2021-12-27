@@ -52,6 +52,20 @@
       </div>
 
       <div class="d-block mt-2">
+        <div class="alert alert-info">
+          <span class='d-block'>
+            Your password has to contain
+          </span>
+          <ul>
+            <li>At least 1 number</li>
+            <li>At least 8 characters</li>
+            <li>1 capital letter</li>
+            <li>1 special character</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="d-block mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Confirm Password</mat-label>
           <input
@@ -61,6 +75,14 @@
             formControlName="confirmPassword"
             placeholder="Confirm your password">
         </mat-form-field>
+      </div>
+
+      <div class="d-block mt-2" *ngIf="invalidPasswordValidation">
+        <div class="alert alert-danger">
+          <span>
+            The passwords must be the same
+          </span>
+        </div>
       </div>
 
       <div class="d-block mt-4">
@@ -78,7 +100,8 @@
         <button mat-button
           type="submit"
           mat-flat-button
-          class="w-100 h-48-px">
+          class="w-100 h-48-px"
+          (click)="cancelUser()">
           Cancel
         </button>
       </div>
