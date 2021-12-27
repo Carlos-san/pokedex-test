@@ -1,0 +1,54 @@
+<section class="login-section w-100 h-100 d-flex">
+
+  <article class="card card-centered p-2">
+    <div class="card-header text-center">
+      <img alt="pokeball-logo"
+      width="60"
+      height="60"
+      src="https://img.icons8.com/dusk/64/000000/pokeball.png"/>
+    </div>
+
+    <div class="login-form">
+      <div class="d-block mt-4">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>User</mat-label>
+          <input
+            type="email"
+            class="w-100"
+            matInput
+            formControlName="userName"
+            placeholder="pokemon trainer email">
+        </mat-form-field>
+      </div>
+
+      <div class="d-block mt-1">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            type="password"
+            class="w-100"
+            matInput
+            formControlName="password"
+            placeholder="Password">
+        </mat-form-field>
+      </div>
+
+      <div class="d-block mt-1">
+        <button mat-button
+          type="submit"
+          mat-flat-button
+          color="primary"
+          class="w-100 h-48-px">
+          Log in
+        </button>
+      </div>
+
+      <div class="d-block mt-1 text-center">
+        <a class="anchor" [routerLink]="['/sign-up']">
+          Sign In
+        </a>
+      </div>
+
+    </div>
+  </article>
+</section>
