@@ -1,0 +1,27 @@
+<a class="card p-2" *ngIf="pokemonDetail && pokemonListItemModel">
+
+  <div class="row">
+    <div class="col-4">
+      <img *ngIf="pokemonDetail.sprites.front_default"
+        width="70"
+        height="70"
+        alt="pokemon detail"
+        [src]="pokemonDetail.sprites.front_default"/>
+    </div>
+    <div class="col-8">
+      <h3 class="d-block mb-0">
+        {{ pokemonListItemModel.name}}
+      </h3>
+
+      <div class="d-block">
+        <mat-chip-list aria-label="pokemon types">
+          <mat-chip [class]="'badge-' + type.type.name"
+            *ngFor="let type of pokemonDetail.types">
+            {{type.type.name}}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+  </div>
+
+</a>
